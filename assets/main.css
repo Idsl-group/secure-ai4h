@@ -77,12 +77,42 @@ th,td{
 }
 
 /* Website Banner */
+.banner-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
 .responsive-banner {
-  width: 100%;
-  max-width: 1000px;
-  height: 500px;
-  display: block;
-  margin: 0 auto;
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.centered-banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 5px #000;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 1rem 2rem;
+    border-radius: 8px;
+}
+
+.centered-banner-text h1 {
+    font-size: 2rem;
+    margin: 0 0 0.5rem;
+    text-align: center;
+}
+
+.centered-banner-text p {
+    font-size: 1.1rem;
+    margin: 0;
+    text-align: center;
 }
 
 .top-left {font-size:5.33em; color: #505050; background: #fafafa; text-align: center; width: 1000px; height: 67px; position: absolute; padding: 36px 0 0 0; top: 0px;}
@@ -94,8 +124,63 @@ th,td{
 .year{color: #505050; font-size:0.67em; font-weight: lighter;}
 
 /* Navigation Links (Home, Registration, etc) */
-table.navigation{width:800px;}
-td.navigation{font-size:1.67em; white-space:nowrap; width:20%; text-align:center; vertical-align:middle; padding:0px 0px 0px 0px;}
+/* Make nav table into a flex container */
+table.navigation {
+    display: flex;
+    justify-content: center;
+    gap: 2rem; /* spacing between links */
+    background-color: #f0f4f8;
+    padding: 1rem 0;
+    border-bottom: 1px solid #ccc;
+    margin: 0 auto;
+}
+
+/* Remove default table styles */
+table.navigation tr,
+table.navigation td {
+    display: contents;
+}
+
+/* Style each nav link */
+table.navigation a {
+    text-decoration: none;
+    color: #004080;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    position: relative;
+}
+
+/* Hover effect */
+table.navigation a:hover {
+    background-color: #e0ecff;
+    color: #00264d;
+    transform: scale(1.05);
+}
+
+table.navigation a::after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    bottom: 0;
+    width: 80%;
+    height: 2px;
+    background-color: #004080;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+table.navigation a:hover::after {
+    transform: scaleX(1);
+}
+
+/* Active/current page styling */
+table.navigation a.current {
+    background-color: #cce0ff;
+    font-weight: bold;
+}
 
 /* Sponsor Images */
 .organizers-grid {
@@ -173,26 +258,44 @@ td.navigation{font-size:1.67em; white-space:nowrap; width:20%; text-align:center
   color: #c0c0c0;
 }
 
+/* Registeration Page */
+.styled-table {
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 0.95em;
+    width: 100%;
+    min-width: 600px;
+    border: 1px solid #ddd;
+}
 
-/* The Table on the Program Page */
-td.room{padding: 4px 12px 4px 4px; width: 90%; vertical-align:bottom; font-size:1.67em; color: #52739e; height:32px;}
-td.date{white-space:nowrap; width:130px; text-align:right; vertical-align:top; padding:4px 16px 0px 0px;}
-td.title{padding: 4px 12px 4px 4px; width: 90%; vertical-align:top; font-size:1.5em; color: #813c54; height:32px; font-family:'Roboto Slab',serif; text-shadow: 1px 1px 2px #d0d0d0; }
-td.title-special{padding: 4px 12px 4px 4px; width: 90%; vertical-align:top; font-size:1.67em; color: #52739e; height:32px; font-family:'Roboto Slab',serif; text-shadow: 1px 1px 2px #d0d0d0;}
-td.speaker{padding: 4px 12px 4px 4px; font-style: italic; font-size:1em; max-height:999999px}
-td.abstract{padding: 4px 12px 12px 4px; font-size:1em; max-height:999999px}
-td.abstract img{display: block; margin: 4px auto 8px auto}
-table.plenary{padding-top: 8px; background: #ffffff;}
+.styled-table thead tr {
+    background-color: #3f6fa8;
+    color: #ffffff;
+    text-align: left;
+}
 
-/* Registration and Directions iframes and Images */
-iframe.registration{display:block; margin:1em auto 2em auto; width:700px; height:1400px; border:none;}
-iframe.directions{display:block; margin:1em auto 2em auto; width:800px; height:400px; border:none;}
-img.center{display:block; width:67%; margin:1em auto 2em auto;}
+.styled-table th, .styled-table td {
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+}
 
-/* Flyer Images */
-table.flyers{width:800px;}
-td.flyer{white-space:nowrap; width:50%; text-align:center; vertical-align:middle; padding:0px 0px 0px 0px;}
-td.sponsor img{width: 100%}
+.styled-table tbody tr:nth-child(even) {
+    background-color: #f3f3f3;
+}
+
+
+h2, h3 {
+    margin-top: 10px;
+    color: #3f6fa8;
+}
+
+p, ul, ol {
+    font-size: 0.95em;
+    line-height: 1.6em;
+}
+
+
+
 
 footer{font-size:0.875em; margin-top:12em; text-align:center;}
 
