@@ -182,7 +182,25 @@ table.navigation a.current {
     font-weight: bold;
 }
 
+
 /* Home page */
+
+.travel-grant-highlight {
+    background-color: #e8f4ff;
+    border-left: 4px solid #005fa3;
+    padding: 16px;
+    margin: 40px 0;
+    border-radius: 6px;
+}
+
+.travel-grant-highlight h3 {
+    margin-top: 0;
+    font-size: 1.3em;
+    color: #003366;
+}
+
+
+
 .organizers-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -329,6 +347,43 @@ table.navigation a.current {
   color: #003d80;
   text-decoration: underline;
 }
+
+/* Call for Papers page */
+.travel-grant-section {
+    background-color: #f4f8fc;
+    border-left: 4px solid #0077cc;
+    padding: 20px;
+    margin: 40px 0;
+    border-radius: 8px;
+}
+
+.travel-grant-section h2 {
+    margin-top: 0;
+    font-size: 1.6em;
+    color: #003366;
+}
+
+.travel-grant-section p {
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+.grant-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 16px;
+    background-color: #0077cc;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.grant-button:hover {
+    background-color: #005fa3;
+}
+
 
 
 /* Registeration Page */
