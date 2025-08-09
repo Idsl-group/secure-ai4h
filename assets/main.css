@@ -566,7 +566,7 @@ p, ul, ol {
   transform: translateY(-1px); 
 }
 
-Outline variant for secondary actions
+/* Outline variant for secondary actions */
 .cta-button.outline {
   background: transparent;
   color: #0077cc;
