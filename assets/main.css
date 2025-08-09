@@ -454,6 +454,134 @@ p, ul, ol {
   margin-bottom: 0.5em;
 }
  
+/* Formatting note box — matches site palette */
+.formatting-note {
+  background: #f4f8fc;                  /* soft blue */
+  border-left: 5px solid #52739e;       /* your blue-gray accent */
+  padding: 16px 18px;
+  margin: 24px auto;
+  width: 900px;                         /* aligns with your <p> width in main.css */
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.formatting-note h3 {
+  margin: 0 0 8px 0;
+  color: #52739e;
+  font-size: 1.25em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Simple “info” dot using CSS only */
+.formatting-note h3::before {
+  content: "i";
+  display: inline-grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background:#52739e;
+  color:#fff;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9em;
+  line-height: 1;
+}
+
+.formatting-note p {
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Link style inside the box */
+.formatting-note a {
+  color: #b2132e;                       /* your red hover color family */
+  text-decoration: underline;
+}
+.formatting-note a:hover {
+  color: #813c54;                       /* your burgundy */
+  text-decoration-thickness: 2px;
+}
+
+/* Mobile tweak to match your responsive rules */
+@media only screen and (max-width: 1100px) {
+  .formatting-note { width: auto; }
+}
+
+/* Reusable callout card (matches Grant section look) */
+.callout-card {
+  background: #f4f8fc;
+  border-left: 5px solid #0077cc;
+  padding: 20px;
+  margin: 40px auto;
+  width: 900px;              
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+}
+
+.callout-title {
+  margin: 0 0 10px 0;
+  color: #003366;
+  font-size: 1.6em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Simple info dot */
+.callout-title::before {
+  content: "i";
+  display: inline-grid; place-items: center;
+  width: 20px; height: 20px; border-radius: 50%;
+  background:#0077cc; color:#fff; font-weight:700; font-size:.9em;
+}
+
+/* Links & button styles aligned to grant section */
+.callout-card a {
+  color: #0077cc;
+  text-decoration: underline;
+  transition: color .2s ease;
+}
+.callout-card a:hover { color: #005fa3; } 
+
+/* Primary CTA button (reuse for Contact actions too) */
+.cta-button {
+  display: inline-block;
+  margin-top: 10px;
+  margin-left: 20px;
+  padding: 10px 16px;
+  background: transparent;
+  color: #0077cc;
+  border: 2px solid #0077cc;
+  text-decoration: none;
+  font-weight: 700;
+  border-radius: 6px;
+  transition: background-color .2s ease, transform .1s ease;
+}
+.cta-button:hover { 
+  color: #fff; 
+  background:#0077cc;
+  transform: translateY(-1px); 
+}
+
+Outline variant for secondary actions
+.cta-button.outline {
+  background: transparent;
+  color: #0077cc;
+  border: 2px solid #0077cc;
+}
+.cta-button.outline:hover {
+  color: #fff; background:#0077cc;
+}
+
+/* Contact block tweaks */
+.contact-actions { margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap; }
+.link-strong { font-weight: 700; color:#0077cc; text-decoration: underline; }
+@media only screen and (max-width:1100px) { .callout-card{ width:auto; } }
+
+
 
 /* My hacky way of making the site mobile-friendly */
 @media only screen and (max-width: 1100px) {
