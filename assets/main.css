@@ -76,44 +76,134 @@ th,td{
     /*border: 1px solid black;*/
 }
 
-/* Website Banner */
-.banner-container {
-    position: relative;
-    width: 100%;
-    max-width: 1000px;
-    margin: 0 auto;
+/* === HERO BANNER (from scratch) === */
+.hero {
+  position: relative;
+  max-width: 1000px;
+  margin: 0 auto 28px;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.18);
+}
+.hero__img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none; /* overlay is purely visual */
+}
+/* Replace your .hero__content block with this */
+.hero__content {
+  position: relative;
+  text-align: center;
+  color: #fff;
+  background: rgba(0,0,0,0.60);
+  backdrop-filter: blur(3px);
+  padding: 22px 28px;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+
+  /* 🔒 FIXED SIZE: box won’t grow while typing */
+  width: 92%;              /* fixed width (was max-width) */
+  max-width: 940px;        /* hard cap for large screens */
+  min-height: 220px;       /* enough room for all lines */
+  margin: 0 auto;
 }
 
-.responsive-banner {
-    width: 100%;
-    height: auto;
-    display: block;
+.hero__content .line3 {
+  margin-top: clamp(16px, 2.2vw, 32px);
+  padding-top: clamp(8px, 1.2vw, 14px);
+  border-top: 1px solid rgba(255,255,255,0.28);
 }
 
-.centered-banner-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: #ffffff; /* Light color */
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* subtle shadow for visibility */
-    background: rgba(0, 0, 0, 0.4);
-    padding: 1rem 2rem;
-    border-radius: 8px;
+.hero__content .line3,
+.hero__content .line3 ~ .hero__line {
+  font-size: 1.6em;         /* slightly smaller than line 2 */
+  font-weight: 500;
+  color: rgba(255,255,255,0.92);
+  letter-spacing: 0.01em;
 }
 
-.centered-banner-text h1 {
-    font-size: 2rem;
-    margin: 0 0 0.5rem;
-    text-align: center;
+/* Keep line 2 tight to line 1 (title block) */
+.hero__content .line2 { 
+  margin-bottom: 0.2em; 
 }
 
-.centered-banner-text p {
-    font-size: 1.1rem;
-    margin: 0;
-    text-align: center;
+/* If the box now feels tight with the added spacing, bump min-height a bit */
+.hero__content { 
+  min-height: 240px; /* tweak 220–260px to taste */
 }
+
+/* Typography inside the banner (crisp, no shadows) */
+.hero__content * {
+  text-shadow: none !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: 'Roboto', sans-serif;
+}
+.hero__title {
+  font-size: 3.2em;
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 0.3em 0;
+}
+.hero__line {
+  margin: 0.1em 0;
+  line-height: 1.2;
+  font-weight: 600;
+  font-size: 1.9em; /* bigger than normal paragraphs */
+}
+
+/* === Typing effect (only lines 2–4) === */
+/* Lines 2–4 reveal inside a fixed box */
+.type {
+  position: relative;
+  overflow: hidden;         /* text reveals within fixed box */
+  white-space: nowrap;
+  display: block;
+  width: 0;                 /* animated width (characters) */
+  padding-right: 3px;       /* room for caret at start */
+}
+
+/* Full-height caret (visible only while typing) */
+.type::after {
+  content: "";
+  position: absolute;
+  right: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: currentColor;
+  opacity: 0;
+  box-shadow: 0 0 0 1px rgba(0,0,0,.18);
+}
+
+/* Blink that ends invisible */
+@keyframes caret-blink { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+
+/* Character-by-character typing */
+@keyframes typing2 { from { width: 0ch; } to { width: 71ch; } }
+@keyframes typing3 { from { width: 0ch; } to { width: 18ch; } }
+@keyframes typing4 { from { width: 0ch; } to { width: 28ch; } }
+
+/* Timeline: L2 0–4s, L3 4–6s, L4 6–8s */
+.line2 { animation: typing2 4s steps(71,end) forwards; }
+.line3 { animation: typing3 2s steps(18,end) forwards; animation-delay: 3s; }
+.line4 { animation: typing4 2s steps(28,end) forwards; animation-delay: 5s; }
+
+/* Caret windows */
+.line2.type::after { opacity:1; animation: caret-blink .75s step-end 4 forwards; }
+.line3.type::after { opacity:1; animation: caret-blink .75s step-end 2 forwards; animation-delay: 3s; }
+.line4.type::after { opacity:1; animation: caret-blink .75s step-end 2 forwards; animation-delay: 5s; }
+
+/* Accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .type, .type::after { animation: none !important; width: auto; }
+}
+
 
 .top-left {font-size:5.33em; color: #505050; background: #fafafa; text-align: center; width: 1000px; height: 67px; position: absolute; padding: 36px 0 0 0; top: 0px;}
 .bottom-right {font-size:2.33em; color: #fafafa; line-height: 1.5em; width: auto; height: 100px; padding: 0px 27px 27px 0px; text-align: right; position: absolute; bottom: 0px; right: 0px; text-shadow: 0px 0px 6px #000000;}
