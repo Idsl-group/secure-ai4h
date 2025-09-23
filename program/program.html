@@ -4,19 +4,19 @@
 <head>
     <base href="..">
     <meta charset="UTF-8">
-    <link rel="shortcut icon" type="image/png" href="assets/new-icon.png"/>
+    <link rel="shortcut icon" type="image/png" href="assets/icon/new-icon.png"/>
     <link rel="stylesheet" type="text/css" media="all" href="assets/main.css"/>
     <meta name="description" content="Conference Template">
     <meta name="resource-type" content="document">
     <meta name="distribution" content="global">
     <meta name="KeyWords" content="Conference">
-    <title>Registration | Conference Template</title>
+    <title>AAAI Fall Symposium | Program</title>
 </head>
 
 <body>
 
     <div class="hero">
-    <img class="hero__img" src="assets/editted-banner.jfif" alt="SECURE-AI4H Banner">
+    <img class="hero__img" src="assets/banner/editted-banner.jfif" alt="SECURE-AI4H Banner">
         <div class="hero__overlay">
             <div class="hero__content">
                 <!-- Line 1: static (no typing, no cursor) -->
@@ -52,8 +52,35 @@
         </tr>
     </table>
 
-    <h2>Schedule (TBD)</h2>
-    
+    <h2>Schedule</h2>
+        <main class="container">
+            <section class="speakers-grid" id="speakersGrid">
+                <article class="speaker-card" id="first-last">
+                    <div class="card-media">
+                    <img src="assets/speakers/aidong-zhang.jfif" alt="Headshot of First Last" loading="lazy">
+                    </div>
+                    <div class="card-body">
+                    <h3 class="speaker-name">Aidong Zhang</h3>
+                    <p class="speaker-affil">University of Virginia</p>
+                    <h4 class="talk-title">Concept-based Interpretability for Responsible Medical AI</h4>
+                    <section class="talk-abstract">
+                        <h3>Talk Abstract</h3>
+                        <p>
+                            In recent years, major advances in artificial intelligence (AI) have been applied to medical image diagnosis with promising results. Even though these methods demonstrate incredible potential for saving valuable person-hours and minimizing inadvertent human errors, their adoption has been met with rightful skepticism and extreme circumspection in critical applications such as medical diagnosis.
+                        </p>
+                        <p>
+                            A paramount challenge is the lack of rationale behind predictions—making these systems notoriously “black boxes.” In extreme cases, this can create a mismatch between the designer’s intended behavior and the model’s actual performance.
+                        </p>
+                        <p>
+                            In this talk, I will discuss our recent research on explainable AI strategies. In particular, I will describe concept-based learning models and show how both concept-based and example-based learning approaches can be designed for explainable deep neural networks, vision transformers, and vision-language models.
+                        </p>
+                    </section>
+                    <!--<div class="speaker-slot"><span class="label">Time slot:</span> Lorem ipsum…</div>-->
+                    <div class="card-actions"><a class="speaker-link" href="https://engineering.virginia.edu/faculty/aidong-zhang" target="_blank" rel="noopener">Website</a></div>
+                    </div>
+                </article>
+            </section>
+        </main>
 
 </body>
 </html>
