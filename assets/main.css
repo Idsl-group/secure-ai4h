@@ -749,19 +749,29 @@ p, ul, ol {
   background: #3b78ea;
 }
 
-.talk-abstract,
-.speaker-bio,
-.card-body {
-  white-space: normal;   /* allow wrapping */
-  overflow: visible;     /* don't clip long lines */
-  word-break: break-word; /* safe wrapping for very long words/URLs */
+
+/* Final fix: let text fit inside the right column of speaker cards */
+.speaker-card p,
+.speaker-card ul,
+.speaker-card ol {
+  width: auto;          /* override the global widths (900px / 800px) */
+  max-width: 100%;      /* never exceed the column */
+  margin-left: 0;       /* keep normal flow inside the card */
+  margin-right: 0;
 }
 
-.talk-abstract p,
-.speaker-bio p {
-  margin: 0 0 0.75rem;
-  line-height: 1.55;
+/* Keep the column from “refusing to shrink” in grid */
+.speaker-card { 
+  grid-template-columns: 180px minmax(0, 1fr);
 }
+.speaker-card .card-body {
+  min-width: 0;                 /* critical for grid text wrapping */
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}
+
+
 
 
 /* Contact block tweaks */
