@@ -772,6 +772,14 @@ p, ul, ol {
 }
 
 
+/* .card-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(82,115,158,0.4); 
+  mix-blend-mode: multiply;
+} */
+
 
 
 /* Contact block tweaks */
@@ -791,3 +799,745 @@ p, ul, ol {
     table.footer{font-size:0.33em;}
 }
 
+/* ========== Uniform speaker layout with hover abstract ========== */
+/* Container uses your existing .speaker-card; we only refine it for this format */
+.speaker-card.uniform {
+  position: relative;
+  display: block;                 /* simpler than a grid for this pattern */
+  overflow: hidden;               /* keeps overlay corners clean */
+  padding: 12px 14px;             /* inner breathing room */
+  border-radius: 10px;            /* you already have rounded corners */
+}
+
+/* Header row: small, fixed-size avatar + text; prevents image stretching */
+.speaker-card.uniform .speaker-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Tiny, non-stretching avatar (works great with low-res images) */
+.speaker-card.uniform .avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 10px;
+  object-fit: cover;              /* crop edges, no distortion */
+  flex: 0 0 96px;                 /* never grow with content */
+  background: #f1f3f6;           /* subtle frame if image loads slowly */
+  border: 1px solid #e5e7eb;
+}
+
+/* Text stack */
+.speaker-card.uniform .meta { min-width: 0; } /* allow wrapping */
+.speaker-card.uniform .speaker-name { margin: 0; font-size: 1.1rem; }
+.speaker-card.uniform .speaker-affil { margin: 4px 0 6px; color: #666; }
+.speaker-card.uniform .talk-title { margin: 0; font-size: 1rem; color: #333; }
+
+/* Hover overlay that covers ~75% of the card from the bottom up */
+.speaker-card.uniform .abstract-overlay {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  height: 75%;                    /* your requirement */
+  background: rgba(0,0,0,0.72);   /* uniform dark cover; image/text beneath stays visible but faded */
+  color: #fff;
+  padding: 14px 16px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .18s ease, transform .18s ease;
+  pointer-events: none;           /* avoid trapping clicks when hidden */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Title inside overlay */
+.speaker-card.uniform .abstract-overlay h5 {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: .02em;
+  color: rgba(255,255,255,.9);
+}
+
+/* Scrollable content area for long abstracts (card size stays stable) */
+.speaker-card.uniform .abstract-scroll {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  line-height: 1.55;
+}
+.speaker-card.uniform .abstract-scroll p { margin: 0 0 .75rem; }
+
+/* Reveal on hover: overlay in, base dims slightly */
+.speaker-card.uniform:hover .abstract-overlay {
+  opacity: 1;
+  transform: translateY(0);
+}
+.speaker-card.uniform .card-base {
+  transition: filter .18s ease;
+}
+.speaker-card.uniform:hover .card-base {
+  filter: brightness(0.85);
+}
+
+/* Prevent global widths from breaking the layout inside cards */
+.speaker-card.uniform p,
+.speaker-card.uniform ul,
+.speaker-card.uniform ol {
+  width: auto;
+  max-width: 100%;
+  margin-left: 0;
+  margin-right: 0;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* Mobile: keep everything comfortable */
+@media (max-width: 640px) {
+  .speaker-card.uniform { padding: 12px; }
+  .speaker-card.uniform .avatar { width: 80px; height: 80px; }
+  .speaker-card.uniform .abstract-overlay { height: 80%; } /* a touch taller on small screens */
+}
+
+
+/* Expandable speaker card (no scrollbars) */
+.speaker-card.expandable {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow .2s ease;
+  margin: 20px 0;
+}
+
+.speaker-card.expandable:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,.2);
+}
+
+/* Header: avatar + info */
+.speaker-card.expandable .speaker-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+}
+
+.speaker-card.expandable .avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  flex: 0 0 100px;
+  background: #f0f0f0;
+}
+
+.speaker-card.expandable .meta { min-width: 0; }
+.speaker-card.expandable .speaker-name { margin: 0; font-size: 1.2rem; }
+.speaker-card.expandable .speaker-affil { margin: 4px 0 6px; color: #666; }
+.speaker-card.expandable .talk-title { margin: 0; font-size: 1rem; color: #333; }
+
+/* Abstract: hidden by default */
+.speaker-card.expandable .abstract {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 14px;
+  transition: max-height .4s ease, padding .4s ease;
+}
+
+/* Expand to fit text on hover */
+.speaker-card.expandable:hover .abstract {
+  max-height: 1000px;   /* large enough to fit any abstract */
+  padding: 14px;
+}
+
+.speaker-card.expandable .abstract h5 {
+  margin: 0 0 6px;
+  font-size: 1rem;
+  color: #52739e;
+}
+
+.speaker-card.expandable .abstract p {
+  margin: 0 0 0.75rem;
+  line-height: 1.55;
+}
+
+
+/* Speaker card with left image + right content */
+.speaker-card.side-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr; /* left fixed column for photo+info */
+  gap: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  align-items: start;
+}
+
+/* Left column: image + name/affil */
+.speaker-card .left-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.speaker-card .avatar {
+  width: 200px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  background: #f0f0f0;
+  margin-bottom: 12px;
+}
+
+.speaker-card .info {
+  text-align: center;
+}
+
+.speaker-card .speaker-name {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.speaker-card .speaker-role,
+.speaker-card .speaker-affil {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Right column: title + abstract */
+.speaker-card .right-col {
+  min-width: 0; /* prevents overflow in grid */
+}
+
+.speaker-card .talk-title {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #52739e;
+}
+
+.speaker-card .talk-abstract {
+  margin: 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+
+/* Base card */
+.speaker-card.side-layout {
+  display: grid;
+  grid-template-columns: auto 1fr; /* left = compact, right = flexible */
+  gap: 20px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 20px 0;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  align-items: start;
+}
+
+/* Left column for one or two presenters */
+.speaker-card .left-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  min-width: 200px;   /* keeps it compact */
+  max-width: 220px;
+}
+
+/* If duo, stack both presenters neatly */
+.speaker-card .left-col.duo {
+  gap: 30px;
+}
+
+/* Each presenter block */
+.speaker-card .presenter {
+  text-align: center;
+}
+
+.speaker-card .presenter .avatar {
+  width: 160px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 2px solid #ccc;
+  background: #f0f0f0;
+  margin-bottom: 8px;
+}
+
+.speaker-card .presenter .speaker-name {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.speaker-card .presenter .speaker-role,
+.speaker-card .presenter .speaker-affil {
+  margin: 2px 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Right column fills all remaining space */
+.speaker-card .right-col {
+  min-width: 0;
+}
+
+.speaker-card .talk-title {
+  margin: 0 0 10px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #52739e;
+}
+
+.speaker-card .talk-abstract {
+  margin: 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+
+/* ==== Duo presenter card with diagonal frame & hover alternation ==== */
+.speaker-card.diag-duo {
+  display: grid;
+  grid-template-columns: 260px minmax(0,1fr);  /* compact left column, elastic right */
+  gap: 18px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 14px;
+  align-items: start;
+  overflow: hidden;
+}
+
+/* Left column: shared diagonal frame */
+.speaker-card.diag-duo .media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;             /* square frame */
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f5f8;
+  border: 1px solid #e6e8ee;
+}
+
+/* Two images fill the frame; clipped into diagonal halves */
+.speaker-card.diag-duo .img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  /* if a face is off-center, you can tweak this per-image: */
+  object-position: center top;
+}
+
+/* Triangular masks (top-left & bottom-right) */
+.speaker-card.diag-duo .img-a {
+  clip-path: polygon(0 0, 100% 0, 0 100%);           /* ▲ */
+}
+.speaker-card.diag-duo .img-b {
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);     /* ▼ */
+}
+
+/* Diagonal separator (45°) */
+.speaker-card.diag-duo .diag-line {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 49.4%, rgba(255,255,255,0.95) 49.5%, rgba(0,0,0,0.08) 50.5%, transparent 51%);
+  pointer-events: none;
+}
+
+/* Shading overlays that animate to highlight the active presenter */
+.speaker-card.diag-duo .shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.speaker-card.diag-duo .shade-a {
+  /* darken the bottom-right half when Presenter B is active */
+  clip-path: polygon(100% 0, 100% 100%, 0 100%);     /* same region as img-b */
+  background: rgba(0,0,0,0.35);
+  opacity: 0;  /* A active initially (no shade over A's counterpart) */
+}
+.speaker-card.diag-duo .shade-b {
+  /* darken the top-left half when Presenter A is active */
+  clip-path: polygon(0 0, 100% 0, 0 100%);           /* same region as img-a */
+  background: rgba(0,0,0,0.35);
+  opacity: 1;  /* B shaded initially (A is active) */
+}
+
+/* Institute under the frame */
+.speaker-card.diag-duo .institute {
+  grid-column: 1 / 2;  /* stays in left column below the frame */
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 8px;
+}
+
+/* Right column content */
+.speaker-card.diag-duo .content {
+  min-width: 0;  /* prevent text clipping */
+}
+.speaker-card.diag-duo .talk-title {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #52739e;
+}
+.speaker-card.diag-duo .talk-abstract {
+  margin: 0 0 10px;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Presenter panels: stacked in the same spot, we fade between them */
+.speaker-card.diag-duo .presenter-panels {
+  position: relative;
+  min-height: 3.9em;          /* reserve space to avoid layout jump */
+}
+.speaker-card.diag-duo .presenter-panels .panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .35s ease;
+}
+.speaker-card.diag-duo .presenter-panels .panel h3 { margin: 0; font-size: 1.05rem; }
+.speaker-card.diag-duo .presenter-panels .panel p  { margin: 2px 0; color:#555; }
+
+/* Initial state: Presenter A visible */
+.speaker-card.diag-duo .panel-a { opacity: 1; }
+
+/* Hover animation: loop every 3s (A -> B -> A …) */
+/* We animate BOTH: the shades (to highlight the active half) and the panels */
+@keyframes swapA { 0%, 49% { opacity: 1 } 50%, 100% { opacity: 0 } }   /* A visible first half */
+@keyframes swapB { 0%, 49% { opacity: 0 } 50%, 100% { opacity: 1 } }   /* B visible second half */
+
+.speaker-card.diag-duo:hover .panel-a,
+.speaker-card.diag-duo:hover .shade-b {
+  animation: swapA 6s linear infinite;
+  animation-play-state: running;
+}
+.speaker-card.diag-duo:hover .panel-b,
+.speaker-card.diag-duo:hover .shade-a {
+  animation: swapB 6s linear infinite;
+  animation-play-state: running;
+}
+
+/* Accessibility: reduce motion users see a static card */
+@media (prefers-reduced-motion: reduce) {
+  .speaker-card.diag-duo:hover .panel-a,
+  .speaker-card.diag-duo:hover .shade-b,
+  .speaker-card.diag-duo:hover .panel-b,
+  .speaker-card.diag-duo:hover .shade-a {
+    animation: none !important;
+  }
+}
+
+/* Mobile: stack to avoid tiny triangles */
+@media (max-width: 640px) {
+  .speaker-card.diag-duo {
+    grid-template-columns: 1fr;     /* stack; media stays on top */
+  }
+  .speaker-card.diag-duo .institute { grid-column: auto; }
+}
+
+
+/* ==== Duo presenter card with diagonal initial, hover to full image loop ==== */
+.speaker-card.diag-duo {
+  display: grid;
+  grid-template-columns: 260px minmax(0,1fr); /* compact left, flexible right */
+  gap: 18px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 14px;
+  align-items: start;
+  overflow: hidden;
+}
+
+/* Left media square */
+.speaker-card.diag-duo .media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;            /* square frame */
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f5f8;
+  border: 1px solid #e6e8ee;
+}
+
+/* Base image styles */
+.speaker-card.diag-duo .img,
+.speaker-card.diag-duo .full {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;              /* no stretching */
+  object-position: center;        /* tweak per-photo if needed */
+  display: block;
+}
+
+/* Initial split layer: both halves visible */
+.speaker-card.diag-duo .split { position: absolute; inset: 0; }
+.speaker-card.diag-duo .img-a { clip-path: polygon(0 0, 100% 0, 0 100%); }
+.speaker-card.diag-duo .img-b { clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+
+/* Diagonal separator */
+.speaker-card.diag-duo .diag-line {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(135deg, transparent 49.4%, rgba(255,255,255,0.95) 49.5%, rgba(0,0,0,0.08) 50.5%, transparent 51%);
+}
+
+/* Full-frame layers: hidden until hover */
+.speaker-card.diag-duo .full { opacity: 0; }
+
+/* Institute rotator (below media) */
+.speaker-card.diag-duo .inst-rotator {
+  grid-column: 1 / 2;             /* stays in left column */
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 8px;
+  position: relative;
+  min-height: 1.4em;              /* avoid layout jump */
+}
+.speaker-card.diag-duo .inst-rotator .inst {
+  position: absolute; left: 0; right: 0; top: 0;
+  opacity: 0; transition: opacity .3s ease;
+}
+.speaker-card.diag-duo .inst-rotator .inst-a { opacity: 1; }  /* default */
+
+/* Right column */
+.speaker-card.diag-duo .content { min-width: 0; }
+.speaker-card.diag-duo .talk-title {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #52739e;
+}
+.speaker-card.diag-duo .talk-abstract {
+  margin: 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Hover behavior:
+   - hide the diagonal split
+   - loop A -> B -> A… as full-frame images (3s each, crossfade)
+   - rotate institute text to match active presenter */
+@keyframes fadeA { 0%, 49% {opacity:1} 50%, 100% {opacity:0} }
+@keyframes fadeB { 0%, 49% {opacity:0} 50%, 100% {opacity:1} }
+
+.speaker-card.diag-duo:hover .split { opacity: 0; transition: opacity .2s ease; }
+
+.speaker-card.diag-duo:hover .full-a {
+  animation: fadeA 6s linear infinite;
+}
+.speaker-card.diag-duo:hover .full-b {
+  animation: fadeB 6s linear infinite;
+}
+
+/* Sync institute with the current full image */
+.speaker-card.diag-duo:hover .inst-rotator .inst-a {
+  animation: fadeA 6s linear infinite;
+}
+.speaker-card.diag-duo:hover .inst-rotator .inst-b {
+  animation: fadeB 6s linear infinite;
+}
+
+/* Reduce motion: no animation, keep initial split */
+@media (prefers-reduced-motion: reduce) {
+  .speaker-card.diag-duo:hover .split { opacity: 1 !important; }
+  .speaker-card.diag-duo .full,
+  .speaker-card.diag-duo .inst-rotator .inst { animation: none !important; }
+}
+
+/* Mobile stack */
+@media (max-width: 640px) {
+  .speaker-card.diag-duo { grid-template-columns: 1fr; }
+  .speaker-card.diag-duo .inst-rotator { grid-column: auto; }
+}
+
+/* Safety: prevent global widths from breaking this layout */
+.speaker-card.diag-duo p, .speaker-card.diag-duo ul, .speaker-card.diag-duo ol {
+  width: auto; max-width: 100%; margin-left: 0; margin-right: 0;
+  white-space: normal; overflow-wrap: break-word; word-break: break-word;
+}
+
+/* ========== Duo presenter: smaller image, single-line label, full-height right column ========== */
+.speaker-card.diag-duo.v2 {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr); /* smaller left column */
+  grid-template-rows: auto auto;               /* row 1: image, row 2: label */
+  gap: 14px 18px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 12px;
+  align-items: start;
+  overflow: hidden;
+}
+
+/* Left media square (top-left) */
+.speaker-card.diag-duo.v2 .media {
+  grid-column: 1;
+  grid-row: 1;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;             /* square frame */
+  border-radius: 10px;
+  overflow: hidden;
+  background: #f3f5f8;
+  border: 1px solid #e6e8ee;
+}
+
+.speaker-card.diag-duo.v2 .img,
+.speaker-card.diag-duo.v2 .full {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;               /* never stretch */
+  object-position: center;
+  display: block;
+}
+
+/* Initial diagonal split (visible when not hovering) */
+.speaker-card.diag-duo.v2 .split { position: absolute; inset: 0; }
+.speaker-card.diag-duo.v2 .img-a { clip-path: polygon(0 0, 100% 0, 0 100%); }
+.speaker-card.diag-duo.v2 .img-b { clip-path: polygon(100% 0, 100% 100%, 0 100%); }
+
+.speaker-card.diag-duo.v2 .diag-line {
+  position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(135deg, transparent 49.4%, rgba(255,255,255,0.95) 49.5%, rgba(0,0,0,0.08) 50.5%, transparent 51%);
+}
+
+/* Full-frame layers: hidden until hover */
+.speaker-card.diag-duo.v2 .full { opacity: 0; }
+
+/* Under-image label (row 2, left column) */
+.speaker-card.diag-duo.v2 .inst-rotator {
+  grid-column: 1;
+  grid-row: 2;
+  position: relative;
+  min-height: 1.4em;       /* reserve height, avoid jump */
+  text-align: center;
+  font-size: 0.95rem;
+  color: #555;
+  white-space: nowrap;      /* single line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Three states: default (institute), and A/B (name — role) */
+.speaker-card.diag-duo.v2 .inst-rotator .inst {
+  position: absolute; left: 0; right: 0; top: 0;
+  opacity: 0; transition: opacity .25s ease;
+}
+.speaker-card.diag-duo.v2 .inst-rotator .inst-default { opacity: 1; } /* default */
+
+/* Right column spans the full right side (both rows) */
+.speaker-card.diag-duo.v2 .content {
+  grid-column: 2;
+  grid-row: 1 / span 2;   /* <-- spans from top to bottom on the right */
+  min-width: 0;           /* avoid clipping */
+}
+
+.speaker-card.diag-duo.v2 .talk-title {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #52739e;
+}
+
+.speaker-card.diag-duo.v2 .talk-abstract {
+  margin: 0;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* Hover behavior:
+   - hide diagonal split
+   - alternate full-frame A <-> B every 3s
+   - swap label: institute -> (Presenter A — Role A) -> (Presenter B — Role B) in sync */
+@keyframes fadeA { 0%, 49% {opacity:1} 50%, 100% {opacity:0} }
+@keyframes fadeB { 0%, 49% {opacity:0} 50%, 100% {opacity:1} }
+
+.speaker-card.diag-duo.v2:hover .split { opacity: 0; transition: opacity .2s ease; }
+
+/* Images */
+.speaker-card.diag-duo.v2:hover .full-a { animation: fadeA 3s linear infinite; }
+.speaker-card.diag-duo.v2:hover .full-b { animation: fadeB 3s linear infinite; }
+
+/* Label sync: hide default, alternate A/B */
+.speaker-card.diag-duo.v2:hover .inst-rotator .inst-default { opacity: 0; }
+.speaker-card.diag-duo.v2:hover .inst-rotator .inst-a { animation: fadeA 3s linear infinite; }
+.speaker-card.diag-duo.v2:hover .inst-rotator .inst-b { animation: fadeB 3s linear infinite; }
+
+/* Reduce motion: keep initial state */
+@media (prefers-reduced-motion: reduce) {
+  .speaker-card.diag-duo.v2:hover .split { opacity: 1 !important; }
+  .speaker-card.diag-duo.v2 .full,
+  .speaker-card.diag-duo.v2 .inst-rotator .inst { animation: none !important; }
+}
+
+/* Mobile: stack if needed */
+@media (max-width: 640px) {
+  .speaker-card.diag-duo.v2 { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+  .speaker-card.diag-duo.v2 .content { grid-column: 1; grid-row: 3; }
+}
+
+/* Safety overrides against global paragraph widths */
+.speaker-card.diag-duo.v2 p, .speaker-card.diag-duo.v2 ul, .speaker-card.diag-duo.v2 ol {
+  width: auto; max-width: 100%; margin-left: 0; margin-right: 0;
+  white-space: normal; overflow-wrap: break-word; word-break: break-word;
+}
+
+/* Allow wrapping & make room for up to two lines */
+.speaker-card.diag-duo.v2 .inst-rotator {
+  white-space: normal;            /* allow wrap */
+  overflow: visible;              /* no clipping */
+  text-overflow: clip;            /* no ellipsis */
+  line-height: 1.35;
+  min-height: calc(1.35em * 2);   /* reserve space for two lines */
+  /* keep other existing styles (position:relative, text-align:center, etc.) */
+}
+
+/* The alternating labels can stay absolutely positioned and still wrap */
+.speaker-card.diag-duo.v2 .inst-rotator .inst {
+  position: absolute;
+  left: 0; right: 0; top: 0;
+  opacity: 0;
+  transition: opacity .25s ease;
+  padding: 0 4px;                 /* tiny side padding so wrap isn’t flush */
+}
+
+/* default visible state remains */
+.speaker-card.diag-duo.v2 .inst-rotator .inst-default { opacity: 1; }
+
+
+/* Center-align the institute/info label for single-presenter cards */
+.speaker-card.single .inst-rotator {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;          /* ensures proper centering */
+  white-space: normal;    /* allow wrap if long */
+  overflow: visible;
+}
+.speaker-card.single .inst-rotator .inst {
+  position: relative;     /* no absolute positioning for solo */
+  opacity: 1;             /* always visible */
+}
