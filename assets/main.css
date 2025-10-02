@@ -1850,3 +1850,17 @@ p, ul, ol {
   .organizer-photo.flip{ width:100%; height:auto; }
   .organizer-photo.flip .flip-inner{ height:0; padding-bottom:110%; } /* keep ~200x220 ratio */
 }
+
+
+.avatar-fallback {
+  width: 180px;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0b132a;   /* your dark blue */
+  color: #fff;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 10px;
+}
