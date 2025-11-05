@@ -1931,13 +1931,13 @@ p, ul, ol {
 }
 .poster-toggle:hover { background: #dbe9ff; }
 .poster-list {
-  max-height: 0;
+  max-height: none;
   overflow: hidden;
   transition: max-height .35s ease;
   margin: 10px 0 0;
   padding-left: 18px;
 }
-.session.posters:hover .poster-list { max-height: 800px; } /* hover expand */
+.session.posters:hover .poster-list { max-height: 9999px; } /* hover expand */
 .poster-list li { margin: 6px 0; line-height: 1.45; }
 
 /* Prevent global widths from breaking cards */
@@ -2054,4 +2054,90 @@ p, ul, ol {
   border-radius: 8px;
   font-weight: bold;
   text-align: center;
+}
+
+
+/* === Session chair line (subtle, on-brand) === */
+.chair {
+  margin-top: 6px;
+  font-size: 0.95em;
+  color: #555;
+  padding-left: 2px;
+}
+.chair strong {
+  color: #3f6fa8; /* matches your headings palette */
+  font-weight: 700;
+}
+
+/* === Poster list: title + right-aligned time pill === */
+/* Use a mono-ish face for time (import added below) for that agenda look */
+.poster-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+.poster-list li:last-child { border-bottom: none; }
+
+.poster-title {
+  flex: 1 1 auto;
+}
+
+.poster-time {
+  flex: 0 0 auto;
+  font-family: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.85em;
+  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #e8f1ff;
+  border: 1px solid #cfe0ff;
+  white-space: nowrap;
+}
+
+/* Tighten spacing under poster session header so chair line feels connected */
+.session.posters > .chair {
+  margin-top: 4px;
+  margin-bottom: 8px;
+}
+
+/* Responsive niceties */
+@media (max-width: 640px) {
+  .poster-list li { flex-direction: column; align-items: flex-start; }
+  .poster-time { margin-top: 6px; }
+}
+
+/* === Add Roboto Mono for nicer time pills === */
+@import url('https://fonts.googleapis.com/css?family=Roboto%7CRoboto+Slab%7CRoboto+Mono');
+
+
+/* Poster list collapsed by default */
+.poster-list {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease;
+}
+
+/* Expanded when JS toggles aria-expanded="true" */
+.poster-block[aria-expanded="true"] .poster-list {
+  max-height: 2000px; /* large enough for all posters */
+}
+
+/* Toggle button style */
+.poster-toggle {
+  display: inline-block;
+  margin-bottom: 8px;
+  background-color: #e8f1ff;
+  color: #003366;
+  font-weight: 600;
+  border: 1px solid #cfe0ff;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.poster-toggle:hover {
+  background-color: #d8e7ff;
 }
